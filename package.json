@@ -1,0 +1,22 @@
+{
+  "name": "wa02vjezbe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beugate/wa02vjezbe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Beugate/wa02vjezbe/issues"
+  },
+  "homepage": "https://github.com/Beugate/wa02vjezbe#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
