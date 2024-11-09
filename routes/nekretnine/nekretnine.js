@@ -21,24 +21,78 @@ router.get('/', (req, res) => {
 //dohvati nekretninu po ID-u
 
 router.get('/:id', (req, res) => {
-    const id_nekretnine = req.params.id; // dohvaćamo id parametar iz URL-a
-    const nekretnina = nekretnine.find(nekretnine => nekretnine.id == id_nekretnine);
+    const id_nekretnina = req.params.id; 
+    const nekretnina = nekretnine.find(nekretnine => nekretnine.id == id_nekretnina);
     if (nekretnina) {
-    // ako je pronađeno podudaranje, vratimo nekretnine objekt
     res.json(nekretnina);
     } else {
-    // ako je rezultat undefined, vratimo poruku da nekretnine ne postoji
     res.json({ message: 'nekretnina s traženim ID-em ne postoji.' });
     }
 });
 
 //dodaj novu nekretninu
 
+router.post('/', (req, res) => {
+
+    const { id, naziv, opis, cijena, lokacija, broj_Soba, povrsina } = req.body;
+
+    if (!id || !naziv || !cijena || !lokacija || broj_Soba < 0 || povrsina < 0) {
+        return res.status(400).send('neispravni podaci');
+    }
+    const novaNekretnina = { id, naziv, opis, cijena, lokacija, broj_Soba, povrsina };
+
+    nekretnine.push(novaNekretnina);
+
+    res.status(201).json(novaNekretnina);
+});
+
+
+
+
 //ažuriraj nekretninu potpuno
+router.put('/:id', (req, res) => {
+    const id_nekretnina = req.params.id;
+    const nova_nekretnina = req.body;
+    nova_nekretnina.id = id_nekretnina; 
+    const index = nekretnine.findIndex(nekretnine => nekretnine.id == id_nekretnina);
+    console.log("index pozicija: ",index)
+    if (index !== -1) {
+        nekretnine[index] = nova_nekretnina;
+        res.json(nekretnine[index]);
+    } else {
+        res.json({ message: 'nekretnina s traženim ID-em ne postoji.' });
+    }
+});
+
 
 //ažuriraj nekretninu djelomično
 
+router.patch('/:id', (req, res) => {
+    const id_nekretnina = req.params.id;
+    const nova_nekretnina = req.body;
+    const index = nekretnine.findIndex(nekretnine => nekretnine.id == id_nekretnina);
+    console.log("index pozicija: ",index)
+    if (index !== -1) {
+        for (const key in nova_nekretnina){
+            nekretnine[index] [key] = nova_nekretnina[key];
+        }
+        res.json(nekretnine[index]);
+    } else {
+        res.json({ message: 'nekretnina s traženim ID-em ne postoji.' });
+    }
+});
+
 //obriši nekretninu
+router.delete('/:id', (req, res) => {
+    const id_nekretnina = req.params.id;
+    const index = nekretnine.findIndex(nekretnine => nekretnine.id == id_nekretnina);
+    if (index !== -1) {
+    nekretnine.splice(index, 1);
+    res.json({ message: 'nekretnina uspješno obrisana.' });
+    } else {
+    res.json({ message: 'nekretnina s traženim ID-em ne postoji.' });
+    }
+    });
 
 //pošalji novu ponudu
 
