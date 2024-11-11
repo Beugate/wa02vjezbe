@@ -94,7 +94,5 @@ router.delete('/:id', (req, res) => {
     }
     });
 
-//pošalji novu ponudu
-
 
 module.exports = router;
